@@ -3,7 +3,7 @@ Title: Functions for efficiently subsetting "dist" objects
 Version: 0.0.0.9000
 Author: Minh Long Nguyen <edelweiss611428@gmail.com>
 Maintainer: Minh Long Nguyen <edelweiss611428@gmail.com>
-Description: The package provides functions for efficiently subsetting "dist" objects, which are commonly used in dissimilarity-based clustering. We cannot use the squared brackets operator to extract units in a "dist" object as we usually do with regular numeric matrices. A simple method to do this involves as.dist and as.matrix in base R. However, this method is very slow, especially for large distance matrices. The package is based on C++ functions allowing us to efficiently extract relevant values directly from the "dist" object with simple syntax.
+Description: The package provides functions for efficiently subsetting "dist" objects commonly used in dissimilarity-based clustering. We cannot use the squared brackets operator to extract units in a "dist" object as we usually do with regular numeric matrices. A simple method to do this involves as.dist and as.matrix in base R. However, this method is very slow, especially for large distance matrices. The package is based on C++ functions, allowing us to efficiently extract relevant values directly from the "dist" object with simple syntax.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -11,4 +11,4 @@ RoxygenNote: 7.2.3
 LinkingTo: Rcpp
 Imports: Rcpp
 NeedsCompilation: yes
-Packaged: 2023-10-18 17:28:26 UTC; longn
+Packaged: 2023-10-18 17:35:40 UTC; longn
