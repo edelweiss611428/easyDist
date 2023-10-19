@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 .subDistCpp <- function(dist, idx, diag, upper, N, n) {
-    .Call(`_distExtraction_subDistCpp`, dist, idx, diag, upper, N, n)
+    .Call(`_DistExtraction_subDistCpp`, dist, idx, diag, upper, N, n)
 }
 
 .extractDistCpp <- function(dist, idx1, idx2, N, n1, n2) {
-    .Call(`_distExtraction_extractDistCpp`, dist, idx1, idx2, N, n1, n2)
+    .Call(`_DistExtraction_extractDistCpp`, dist, idx1, idx2, N, n1, n2)
 }
 
 .getColumnsCpp <- function(dist, ColIdx, N, nCol) {
-    .Call(`_distExtraction_getColumns`, dist, ColIdx, N, nCol)
+    .Call(`_DistExtraction_getColumns`, dist, ColIdx, N, nCol)
 }
 

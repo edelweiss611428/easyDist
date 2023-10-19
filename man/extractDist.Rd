@@ -2,43 +2,48 @@
 % Please edit documentation in R/extractDist.R
 \name{extractDist}
 \alias{extractDist}
-\title{Subset a symmetric distance matrix of class "dist"}
+\title{Extract pair-wises distances of units in two groups from a "dist" object}
 \usage{
-extractDist(dist, idxRows = NULL, idxCols = NULL)
+extractDist(dist, idxGroup1 = NULL, idxGroup2 = NULL)
 }
 \arguments{
-\item{dist}{A "dist" object, which can be obtained by the "dist" function.}
+\item{dist}{A "dist" object, which can be obtained with the "dist" function.}
 
-\item{idxRows}{An interger vector indicates the indexes of units in the first subset. It cannot be smaller than 1
-or larger than the dataset size. By default, idxRows = NULL.}
+\item{idxGroup1}{An integer vector specifying the indexes of units the FIRST group. If idxGroup1 is not NULL, indexes can't be
+smaller than 1 or larger the dataset size N. By default, idxGroup1 = NULL.}
 
-\item{idxCols}{An interger vector indicates the indexes of units in the second subset. It cannot be smaller than 1
-or larger than the dataset size. By default, idxCols = NULL.}
+\item{idxGroup2}{An integer vector specifying the indexes of units the SECOND group. If idxGroup2 is not NULL, indexes can't be
+smaller than 1 or larger the dataset size N. By default, idxGroup2 = NULL.}
 }
 \value{
 A numeric matrix storing pair-wise distances between the units in each subset.
 }
 \description{
-extractDist() allows us to efficiently subset a distance matrix of class "dist" without converting
-the "dist" object to a numeric matrix.
+This function allows us to extract pair-wises distances of units in two groups, specified by their indexes, from
+a "dist" object
 }
 \details{
-We are interested in extracting pair-wises distances between units in two subsets (indicated by their
-indexes) from a "dist" object. A simple way to do that is to convert the "dist" object to a numeric matrix using
-as.dist() and extract the relevant values using the squared brackets operator for matrix subsetting. However,
-it is very slow. extractDist() efficiently extract the pair-wise distances from the "dist" object without the need of conversion.
+Extracting pair-wises distances between units in two groups from a "dist" object may be of interest. However,
+we can't use the bracket operator directly to extract rows and columns from the "dist" object as we do with numeric matrices.
+A simple way to do that involves converting the "dist" object to a symmetric numeric matrix using the as.matrix function. However,
+it is extremely inefficient and slow as we only partially extract the "dist" object. The function allows us to extract pair-wise
+distances without the need of conversion.
 
-When either idxRows or idxCols are NULL, extractDist() extracts column vectors of the "dist" matrix given by
-the indexes of the not-null vector. Since the distance matrix is symmetric, it does not matter if we extract
-the row vectors or the column vectors. However, our implementation is more efficient for extracting column vectors
-from a "dist" object. If idxRows and idxCols are both NULL, the "dist" object is converted to a full numeric
-distance matrix.
+When either idxGroup1 or idxGroup2 is NULL, the function extracts the entire "columns" specified by the not-null vector. Since
+the distance matrix is symmetric. It does not matter mathematically if we extract the rows or the columns. However, our implementation
+is more efficient for extracting "columns" from a "dist" object. If idxGroup1 and idxGroup2 are not specified (NULL), the "dist" object
+is fully converted to a numeric matrix.
 }
 \examples{
+x = rnorm(50)
+dx = dist(x) #Euclidean distance matrix of class "dist"
+#Extract the pairwise distances between the first unit and the other units.
+extractDist(dx, idxGroup1 = 1)
 
+library("microbenchmark")
 x = rnorm(100)
-dx = dist(x)
-extractDist(dx, idxRows = 1:10, idxCols = 25:50)
+dx = dist(x) #Euclidean distance matrix of class "dist"
+microbenchmark(extractDist(dx, idxGroup1 = 1), as.matrix(dx)[,1])
 
 }
 \author{

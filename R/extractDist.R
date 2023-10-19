@@ -1,42 +1,48 @@
 #' @name extractDist
-#' @title Subset a symmetric distance matrix of class "dist"
+#' @title Extract pair-wises distances of units in two groups from a "dist" object
 #'
-#' @description  extractDist() allows us to efficiently subset a distance matrix of class "dist" without converting
-#' the "dist" object to a numeric matrix.
+#' @description  This function allows us to extract pair-wises distances of units in two groups, specified by their indexes, from
+#' a "dist" object
 #'
-#' @usage extractDist(dist, idxRows = NULL, idxCols = NULL)
+#' @usage extractDist(dist, idxGroup1 = NULL, idxGroup2 = NULL)
 #'
-#' @param dist  A "dist" object, which can be obtained by the "dist" function.
-#' @param idxRows An interger vector indicates the indexes of units in the first subset. It cannot be smaller than 1
-#' or larger than the dataset size. By default, idxRows = NULL.
-#' @param idxCols An interger vector indicates the indexes of units in the second subset. It cannot be smaller than 1
-#' or larger than the dataset size. By default, idxCols = NULL.
+#' @param dist  A "dist" object, which can be obtained with the "dist" function.
+#' @param idxGroup1 An integer vector specifying the indexes of units the FIRST group. If idxGroup1 is not NULL, indexes can't be
+#' smaller than 1 or larger the dataset size N. By default, idxGroup1 = NULL.
+#' @param idxGroup2 An integer vector specifying the indexes of units the SECOND group. If idxGroup2 is not NULL, indexes can't be
+#' smaller than 1 or larger the dataset size N. By default, idxGroup2 = NULL.
 #'
-#' @details We are interested in extracting pair-wises distances between units in two subsets (indicated by their
-#' indexes) from a "dist" object. A simple way to do that is to convert the "dist" object to a numeric matrix using
-#' as.dist() and extract the relevant values using the squared brackets operator for matrix subsetting. However,
-#' it is very slow. extractDist() efficiently extract the pair-wise distances from the "dist" object without the need of conversion.
+#' @details Extracting pair-wises distances between units in two groups from a "dist" object may be of interest. However,
+#' we can't use the bracket operator directly to extract rows and columns from the "dist" object as we do with numeric matrices.
+#' A simple way to do that involves converting the "dist" object to a symmetric numeric matrix using the as.matrix function. However,
+#' it is extremely inefficient and slow as we only partially extract the "dist" object. The function allows us to extract pair-wise
+#' distances without the need of conversion.
 #'
-#' When either idxRows or idxCols are NULL, extractDist() extracts column vectors of the "dist" matrix given by
-#' the indexes of the not-null vector. Since the distance matrix is symmetric, it does not matter if we extract
-#' the row vectors or the column vectors. However, our implementation is more efficient for extracting column vectors
-#' from a "dist" object. If idxRows and idxCols are both NULL, the "dist" object is converted to a full numeric
-#' distance matrix.
+#' When either idxGroup1 or idxGroup2 is NULL, the function extracts the entire "columns" specified by the not-null vector. Since
+#' the distance matrix is symmetric. It does not matter mathematically if we extract the rows or the columns. However, our implementation
+#' is more efficient for extracting "columns" from a "dist" object. If idxGroup1 and idxGroup2 are not specified (NULL), the "dist" object
+#' is fully converted to a numeric matrix.
 #'
-#'
+#' @importFrom microbenchmark microbenchmark
 #' @return A numeric matrix storing pair-wise distances between the units in each subset.
 #'
 #' @examples
+#' x = rnorm(50)
+#' dx = dist(x) #Euclidean distance matrix of class "dist"
+#' #Extract the pairwise distances between the first unit and the other units.
+#' extractDist(dx, idxGroup1 = 1)
 #'
+#' @examples
+#' library("microbenchmark")
 #' x = rnorm(100)
-#' dx = dist(x)
-#' extractDist(dx, idxRows = 1:10, idxCols = 25:50)
+#' dx = dist(x) #Euclidean distance matrix of class "dist"
+#' microbenchmark(extractDist(dx, idxGroup1 = 1), as.matrix(dx)[,1])
 #'
 #' @author Minh Long Nguyen \email{edelweiss611428@gmail.com}
 #' @export
 
 
-extractDist = function(dist, idxRows = NULL, idxCols = NULL){
+extractDist = function(dist, idxGroup1 = NULL, idxGroup2 = NULL){
 
   if (inherits(dist, "dist") == TRUE) {
     N = attr(dist, "Size")
@@ -44,67 +50,67 @@ extractDist = function(dist, idxRows = NULL, idxCols = NULL){
     stop("dist must be a 'dist' object!")
   }
 
-  if(is.null(idxRows)){
+  if(is.null(idxGroup1)){
 
-    if(is.null(idxCols)){
-      return(.getColumnsCpp(dist, ColIdx = (1:N)-1L, N = N, nCol = nCols))
+    if(is.null(idxGroup2)){
+      return(.getColumnsCpp(dist, ColIdx = (1:N)-1L, N = N, nCol = N))
     } else{
 
-      if(!is.vector(idxCols, "numeric")){
-        stop("idxCols should be a numeric (integer) vector")
+      if(!is.vector(idxGroup2, "numeric")){
+        stop("idxGroup2 should be a numeric (integer) vector")
       } else{
 
-        idxCols = as.integer(idxCols)
-        if(min(idxCols) < 1 | max(idxCols) > N){
-          stop("idxCols cannot be smaller than 1 or larger than N")
+        idxGroup2 = as.integer(idxGroup2)
+        if(min(idxGroup2) < 1 | max(idxGroup2) > N){
+          stop("idxGroup2 cannot be smaller than 1 or larger than N")
         }
 
-        nCols = length(idxCols)
-        return(.getColumnsCpp(dist, ColIdx = idxCols-1L, N = N, nCol = nCols))
+        nGroup2 = length(idxGroup2)
+        return(.getColumnsCpp(dist, ColIdx = idxGroup2-1L, N = N, nCol = nGroup2))
 
       }
     }
   }
 
 
-  if(is.null(idxCols)){
+  if(is.null(idxGroup2)){
 
-    if(is.null(idxRows)){
-      return(.getColumnsCpp(dist, ColIdx = (1:N)-1L, N = N, nCol = nCols))
+    if(is.null(idxGroup1)){
+      return(.getColumnsCpp(dist, ColIdx = (1:N)-1L, N = N, nCol = N))
     } else{
 
-      if(!is.vector(idxRows, "numeric")){
-        stop("idxRows should be a numeric (integer) vector")
+      if(!is.vector(idxGroup1, "numeric")){
+        stop("idxGroup1 should be a numeric (integer) vector")
       } else{
 
-        idxRows = as.integer(idxRows)
-        if(min(idxRows) < 1 | max(idxRows) > N){
-          stop("idxRows cannot be smaller than 1 or larger than N")
+        idxGroup1 = as.integer(idxGroup1)
+        if(min(idxGroup1) < 1 | max(idxGroup1) > N){
+          stop("idxGroup1 cannot be smaller than 1 or larger than N")
         }
 
-        nRows = length(idxRows)
-        return(.getColumnsCpp(dist, ColIdx = idxRows-1L, N = N, nCol = nRows))
+        nGroup1 = length(idxGroup1)
+        return(.getColumnsCpp(dist, ColIdx = idxGroup1-1L, N = N, nCol = nGroup1))
 
       }
     }
   }
 
-  if((!is.vector(idxRows, "numeric")) | (!is.vector(idxCols, "numeric"))){
-    stop("idx must be a numeric (integer) vector!")
+  if((!is.vector(idxGroup1, "numeric")) | (!is.vector(idxGroup2, "numeric"))){
+    stop("idxGroup1 and idxGroup2 must be numeric (integer) vectors!")
   } else{
 
-    idxRows = as.integer(idxRows)
-    idxCols = as.integer(idxCols)
-    nRows = length(idxRows)
-    nCols = length(idxCols)
+    idxGroup1 = as.integer(idxGroup1)
+    idxGroup2 = as.integer(idxGroup2)
+    nGroup1 = length(idxGroup1)
+    nGroup2 = length(idxGroup2)
 
   }
 
 
-  if(min(idxRows) < 1 | min(idxCols) < 1 | max(idxRows) > N | max(idxCols) > N){
-    stop("idxRows and idxCols cannot be smaller than 1 or larger than N")
+  if(min(idxGroup1) < 1 | min(idxGroup2) < 1 | max(idxGroup1) > N | max(idxGroup2) > N){
+    stop("idxGroup1 and idxGroup2 cannot be smaller than 1 or larger than N")
   }
 
-  return(.extractDistCpp(dist, idxRows-1L, idxCols-1L, N, nRows, nCols))
+  return(.extractDistCpp(dist, idxGroup1-1L, idxGroup2-1L, N, nGroup1, nGroup2))
 }
 

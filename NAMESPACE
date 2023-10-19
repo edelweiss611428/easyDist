@@ -3,4 +3,6 @@
 export(extractDist)
 export(subDist)
 importFrom(Rcpp,sourceCpp)
-useDynLib(distExtraction, .registration = TRUE)
+importFrom(cluster,pam)
+importFrom(microbenchmark,microbenchmark)
+useDynLib(DistExtraction, .registration = TRUE)

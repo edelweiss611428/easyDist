@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // subDistCpp
 NumericVector subDistCpp(NumericVector dist, IntegerVector idx, bool diag, bool upper, int N, int n);
-RcppExport SEXP _distExtraction_subDistCpp(SEXP distSEXP, SEXP idxSEXP, SEXP diagSEXP, SEXP upperSEXP, SEXP NSEXP, SEXP nSEXP) {
+RcppExport SEXP _DistExtraction_subDistCpp(SEXP distSEXP, SEXP idxSEXP, SEXP diagSEXP, SEXP upperSEXP, SEXP NSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -28,7 +28,7 @@ END_RCPP
 }
 // extractDistCpp
 NumericVector extractDistCpp(NumericVector dist, IntegerVector idx1, IntegerVector idx2, int N, int n1, int n2);
-RcppExport SEXP _distExtraction_extractDistCpp(SEXP distSEXP, SEXP idx1SEXP, SEXP idx2SEXP, SEXP NSEXP, SEXP n1SEXP, SEXP n2SEXP) {
+RcppExport SEXP _DistExtraction_extractDistCpp(SEXP distSEXP, SEXP idx1SEXP, SEXP idx2SEXP, SEXP NSEXP, SEXP n1SEXP, SEXP n2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -44,7 +44,7 @@ END_RCPP
 }
 // getColumns
 NumericMatrix getColumns(NumericVector dist, IntegerVector ColIdx, int N, int nCol);
-RcppExport SEXP _distExtraction_getColumns(SEXP distSEXP, SEXP ColIdxSEXP, SEXP NSEXP, SEXP nColSEXP) {
+RcppExport SEXP _DistExtraction_getColumns(SEXP distSEXP, SEXP ColIdxSEXP, SEXP NSEXP, SEXP nColSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,13 +58,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_distExtraction_subDistCpp", (DL_FUNC) &_distExtraction_subDistCpp, 6},
-    {"_distExtraction_extractDistCpp", (DL_FUNC) &_distExtraction_extractDistCpp, 6},
-    {"_distExtraction_getColumns", (DL_FUNC) &_distExtraction_getColumns, 4},
+    {"_DistExtraction_subDistCpp", (DL_FUNC) &_DistExtraction_subDistCpp, 6},
+    {"_DistExtraction_extractDistCpp", (DL_FUNC) &_DistExtraction_extractDistCpp, 6},
+    {"_DistExtraction_getColumns", (DL_FUNC) &_DistExtraction_getColumns, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_distExtraction(DllInfo *dll) {
+RcppExport void R_init_DistExtraction(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
