@@ -1,7 +1,7 @@
 #' @name extractDist
 #' @title Extract pair-wises distances of units in two groups from a "dist" object
 #'
-#' @description  This function allows us to extract pair-wises distances of units in two groups, specified by their indexes, from
+#' @description  This function allows us to extract pair-wise distances of units in two groups, specified by their indexes, from
 #' a "dist" object
 #'
 #' @usage extractDist(dist, idxGroup1 = NULL, idxGroup2 = NULL)

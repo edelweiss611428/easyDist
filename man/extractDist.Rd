@@ -19,7 +19,7 @@ smaller than 1 or larger the dataset size N. By default, idxGroup2 = NULL.}
 A numeric matrix storing pair-wise distances between the units in each subset.
 }
 \description{
-This function allows us to extract pair-wises distances of units in two groups, specified by their indexes, from
+This function allows us to extract pair-wise distances of units in two groups, specified by their indexes, from
 a "dist" object
 }
 \details{
