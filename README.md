@@ -1,8 +1,20 @@
-# Functions for Efficiently Subsetting "dist" Objects
+# easyDist
 
 ### Description
-<p align="justify"> 
-The package provides functions for efficiently subsetting "dist" objects in R, commonly used in dissimilarity-based clustering. Users may be interested in extracting a sub-distance matrix of class "dist" from a "dist" object, or they may want to extract pair-wise distances of units in two groups; however, we can't use 2D indexes directly to subset a "dist" object. A simple method to do this involves back-and-forth conversion between numeric matrices and "dist" objects using as.dist and as.matrix functions. However, it can be extremely slow, especially for large "dist" objects. The package allows us to efficiently extract values directly from a "dist" object with simple syntax.</p> 
+
+<p align="justify"> The package provides functions for creating, manipulating, and expanding "dist" objects, which are commonly used in cluster analysis in R. </p> 
+
+This package is under development. Only three features are supported in v.0.0.1, namely:
+
+- subDist: Subsetting a "dist" object from another "dist" object.
+- extractDist: Extracting distances between pairs of observations in two subsets from a "dist" object.
+- getColsDist: Extracting some "columns" (or "row") from a "dist" object.
+
+Features under development:
+
+- createDist: Creating a "dist" object.
+- createDistXY: Computing pairwise distances between pairs of observations in two matrices.
+- expandDist: Expanding a "dist" object by appending more "rows" and "columns".
 
  ### Installation
 
@@ -10,5 +22,5 @@ The package provides functions for efficiently subsetting "dist" objects in R, c
 
 ```
 library(devtools)
-install_github("edelweiss611428/DistExtraction") 
+install_github("edelweiss611428/easyDist") 
 ```
