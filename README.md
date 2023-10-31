@@ -1,6 +1,4 @@
-# Functions for Efficiently Subsetting "dist" Objects
-
-### UPDATE: We will soon change the name of the package to simpleDist and provide more features, including expanding a "dist" object, converting a "dist" object to a numeric matrix, create "dist" objects in R (allowing many more "methods"), etc.
+# Subsetting "dist" Objects
 
 ### Description
 <p align="justify"> 
