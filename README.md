@@ -10,5 +10,5 @@ The package provides functions for efficiently subsetting "dist" objects in R, c
 
 ```
 library(devtools)
-install_github("edelweiss611428/DistExtraction") 
+install_github("edelweiss611428/easyDist") 
 ```
