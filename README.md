@@ -2,7 +2,7 @@
 
 ### Description
 
-<p align="justify"> An R Package for Efficiently Creating, Manipulating, and Expanding "dist" Objects. </p> 
+<p align="justify"> An R Package for Creating, Manipulating, and Expanding "dist" Objects. </p> 
 
  ### Installation
 
