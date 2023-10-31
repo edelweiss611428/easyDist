@@ -14,7 +14,7 @@ Features under development:
 
 - createDist: Creating a "dist" object.
 - createDistXY: Computing pairwise distances between pairs of observations in two matrices.
-- expandDist: Expanding a "dist" object by adding more "rows" and "columns".
+- expandDist: Expanding a "dist" object by appending more "rows" and "columns".
 
  ### Installation
 
